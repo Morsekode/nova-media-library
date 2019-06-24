@@ -1,5 +1,5 @@
 {
-    "name": "classic-o/nova-media-library",
+    "name": "morsekode/nova-media-library",
     "description": "Tool and field that will let you managing files and add them to the posts",
     "version": "0.3.0",
     "keywords": ["laravel", "nova", "media", "gallery"],
