@@ -10,7 +10,8 @@ export default {
       this.$parent.loading = true;
       Nova.request().post('/nova-vendor/nova-media-library/update', {
         id: this.$parent.popup.id,
-        description: this.$parent.popup.description
+        description: this.$parent.popup.description,
+        video_thumb_seconds: this.$parent.popup.video_thumb_seconds
       }).then(() => {
         this.$toasted.show(this.__("nml_successfully_updated"), { type: 'success' });
         this.$parent.loading = false;

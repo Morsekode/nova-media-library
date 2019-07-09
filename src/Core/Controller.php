@@ -88,13 +88,38 @@ class Controller {
 	/** Update description of media file */
 	function update()
 	{
+
 		$valid = Validator::make(request()->all(), [
 			'id' => 'required|numeric',
-			'description' => 'required|string|max:250'
+			'description' => 'required|string|max:250',
+			'video_thumb_seconds' => 'numeric'
 		]);
 		if ( $valid->fails() ) abort(422, __('nova-media-library::messages.id_desc_incorrect'));
 
-		$this->model->updateData(request('id'), [ 'description' => request('description') ]);
+		$file = $this->model->updateData(request('id'), request()->all());
+
+		if($file->video_thumb_seconds){
+			
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+			  CURLOPT_URL => config('media-library')['aws_video_thumb_api']."?bucket_name=dockzilla-reveal&object_key=uploads".$file->path."&time=".$file->video_thumb_seconds,
+			  CURLOPT_RETURNTRANSFER => true,
+			  CURLOPT_ENCODING => "",
+			  CURLOPT_MAXREDIRS => 10,
+			  CURLOPT_TIMEOUT => 30,
+			  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			  CURLOPT_CUSTOMREQUEST => "POST",
+			  CURLOPT_HTTPHEADER => array(
+			    "x-api-key: ".config('media-library')['aws_video_thumb_key']
+			  ),
+			));
+
+			$response = curl_exec($curl);
+			$err = curl_error($curl);
+
+			curl_close($curl);
+		}
+
 		return [ 'message' => __('nova-media-library::messages.successfully_updated') ];
 	}
 

@@ -14,12 +14,14 @@ class CreateNovaMediaLibraryTable extends Migration
     public function up()
     {
         Schema::create('nova_media_library', function (Blueprint $table) {
-            $table->increments('id');
+          $table->increments('id');
 	        $table->string('description')->index()->nullable();
 	        $table->string('path');
 	        $table->string('mime', 50);
 	        $table->string('size', 50);
 	        $table->string('type')->index()->collation('utf8_bin');
+          $table->integer('video_thumb_seconds');
+          $table->string('video_thumb_url');
 	        $table->timestamp('created')->index()->useCurrent();
         });
     }

@@ -33,6 +33,13 @@
         </div>
       </div>
 
+      <div v-if="$parent.popup.type == 'Video'" class="flex border-b border-40">
+        <div class="w-1/4 py-4 font-bold text-80 leading-loose">Video Thumb Seconds</div>
+        <div class="w-1/4 py-4">
+          <input class="form-control form-input w-full shadow-md" v-model="$parent.popup.video_thumb_seconds">
+        </div>
+      </div>
+
       <div class="flex border-b border-40">
         <div class="w-1/4 py-4 font-bold text-80">{{ __("nml_url") }}</div>
         <div class="w-3/4 py-4">

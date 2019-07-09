@@ -8,7 +8,9 @@ class Model extends \Illuminate\Database\Eloquent\Model {
 
 	protected $table = 'nova_media_library';
 
-	protected $fillable = [ 'id', 'description', 'path', 'mime', 'size', 'type', 'created' ];
+	//protected $fillable = [ 'id', 'description', 'path', 'mime', 'size', 'type', 'created' ];
+
+	protected $guarded = ['id'];
 
 	protected $appends = [ 'url' ];
 
@@ -77,16 +79,19 @@ class Model extends \Illuminate\Database\Eloquent\Model {
 	}
 
 	/**
-	 * Update description
+	 * Update
 	 *
 	 * @param int $id
 	 * @param array $update
 	 */
 	function updateData($id, $update = [])
 	{
-		$this->where('id', $id)
-			->first()
-			->update($update);
+		$model =  $this->where('id', $id)
+			->first();
+
+			$model->update($update);
+
+			return $model->fresh();
 	}
 
 }

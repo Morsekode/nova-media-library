@@ -12,6 +12,10 @@ export default {
     },
     setBg(url) {
       return this.isImage(url) ? { backgroundImage: `url(${url})`, backgroundSize: 'cover' } : {};
+    },
+    getPoster(url){
+      let filename = url.substring(0, url.lastIndexOf('.')) || url
+       return `${filename}-1.jpg`;
     }
   },
   beforeDestroy() {

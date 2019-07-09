@@ -9,7 +9,7 @@
 
       <a v-else :href="url" target="_blank">
         <img v-if="isImage(url)" :src="url" class="block w-full rounded-lg" alt="This file could not be found">
-        <video v-else-if="isVideo(url)" controls class="block w-full rounded-lg">
+        <video v-else-if="isVideo(url)" controls class="block w-full rounded-lg" :poster="getPoster(url)">
             <source :src="url+'#t=5'">
         </video>
         <div v-else class="nml-icon-file field shadow-md card"></div>
