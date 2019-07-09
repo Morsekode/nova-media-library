@@ -3,6 +3,10 @@ export default {
     bg(item) {
       return 'image' === item.mime ? { backgroundImage: `url(${item.url})` } : {};
     },
+    video_bg(item){
+        let url = item['url'].replace('.mp4', '');
+        return 'video' === item.mime ? { backgroundImage: `url(${url}-${item.video_thumb_seconds}.jpg)` } : {};
+    },
     mime(item) {
       switch (item.mime) {
         case 'image': return 'image';

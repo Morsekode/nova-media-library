@@ -9,13 +9,24 @@
       :key="item.id"
     >
 
-      <div
+      <div v-if="mime(item) != 'video'"
         class="card shadow-md"
         :class="`nml-icon-`+mime(item)"
         :style="bg(item)"
         :title="item.description"
         @click="clickCard(item)"
       >
+
+        <checkbox v-if="$parent.bulk.is" :checked="$parent.bulk.array.includes(item.id)"></checkbox>
+      </div>
+
+      <div v-else
+        class="card shadow-md nml-icon-image"
+        :style="video_bg(item)"
+        :title="item.description + ' (video)'"
+        @click="clickCard(item)"
+      >
+
         <checkbox v-if="$parent.bulk.is" :checked="$parent.bulk.array.includes(item.id)"></checkbox>
       </div>
 

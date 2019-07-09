@@ -947,6 +947,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         backgroundImage: "url(".concat(item.url, ")")
       } : {};
     },
+    video_bg: function video_bg(item) {
+      var url = item['url'].replace('.mp4', '');
+      return 'video' === item.mime ? {
+        backgroundImage: "url(".concat(url, "-").concat(item.video_thumb_seconds, ".jpg)")
+      } : {};
+    },
     mime: function mime(item) {
       switch (item.mime) {
         case 'image':
@@ -1005,30 +1011,58 @@ var render = function() {
                 staticClass: "item px-1 mb-2 w-1/6 cursor-pointer"
               },
               [
-                _c(
-                  "div",
-                  {
-                    staticClass: "card shadow-md",
-                    class: "nml-icon-" + _vm.mime(item),
-                    style: _vm.bg(item),
-                    attrs: { title: item.description },
-                    on: {
-                      click: function($event) {
-                        return _vm.clickCard(item)
-                      }
-                    }
-                  },
-                  [
-                    _vm.$parent.bulk.is
-                      ? _c("checkbox", {
-                          attrs: {
-                            checked: _vm.$parent.bulk.array.includes(item.id)
+                _vm.mime(item) != "video"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "card shadow-md",
+                        class: "nml-icon-" + _vm.mime(item),
+                        style: _vm.bg(item),
+                        attrs: { title: item.description },
+                        on: {
+                          click: function($event) {
+                            return _vm.clickCard(item)
                           }
-                        })
-                      : _vm._e()
-                  ],
-                  1
-                )
+                        }
+                      },
+                      [
+                        _vm.$parent.bulk.is
+                          ? _c("checkbox", {
+                              attrs: {
+                                checked: _vm.$parent.bulk.array.includes(
+                                  item.id
+                                )
+                              }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  : _c(
+                      "div",
+                      {
+                        staticClass: "card shadow-md nml-icon-image",
+                        style: _vm.video_bg(item),
+                        attrs: { title: item.description + " (video)" },
+                        on: {
+                          click: function($event) {
+                            return _vm.clickCard(item)
+                          }
+                        }
+                      },
+                      [
+                        _vm.$parent.bulk.is
+                          ? _c("checkbox", {
+                              attrs: {
+                                checked: _vm.$parent.bulk.array.includes(
+                                  item.id
+                                )
+                              }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
               ]
             )
           })
@@ -1540,6 +1574,21 @@ var render = function() {
                       }
                     }
                   })
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.$parent.popup.type == "Video"
+            ? _c("div", { staticClass: "flex border-b border-40" }, [
+                _c("div", { staticClass: "w-1/4 py-4" }, [
+                  _c(
+                    "video",
+                    {
+                      staticClass: "embed-responsive-item",
+                      attrs: { controls: "" }
+                    },
+                    [_c("source", { attrs: { src: _vm.$parent.popup.url } })]
+                  )
                 ])
               ])
             : _vm._e(),
