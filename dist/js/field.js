@@ -12180,7 +12180,7 @@ var render = function() {
                     staticClass: "block w-full rounded-lg",
                     attrs: { controls: "", poster: _vm.getPoster(_vm.url) }
                   },
-                  [_c("source", { attrs: { src: _vm.url + "#t=5" } })]
+                  [_c("source", { attrs: { src: _vm.url } })]
                 )
               : _c("div", { staticClass: "nml-icon-file field shadow-md card" })
           ])

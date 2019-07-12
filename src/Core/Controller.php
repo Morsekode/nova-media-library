@@ -20,6 +20,7 @@ class Controller {
 	 */
 	public function get()
 	{
+
 		$valid_from = Validator::make(request()->only('from'), ['from' => 'nullable|date_format:Y-m-d']);
 		$valid_to = Validator::make(request()->only('to'), ['to' => 'nullable|date_format:Y-m-d']);
 
@@ -99,7 +100,7 @@ class Controller {
 		$file = $this->model->updateData(request('id'), request()->all());
 
 		if($file->video_thumb_seconds){
-			
+
 			$curl = curl_init();
 			curl_setopt_array($curl, array(
 			  CURLOPT_URL => config('media-library')['aws_video_thumb_api']."?bucket_name=dockzilla-reveal&object_key=uploads".$file->path."&time=".$file->video_thumb_seconds,
@@ -118,6 +119,8 @@ class Controller {
 			$err = curl_error($curl);
 
 			curl_close($curl);
+			$without_extension = pathinfo(basename($file->path), PATHINFO_FILENAME);
+			$this->model->updateData(request('id'), ['video_thumb_url' => config('media-library')['url'].'/'.config('media-library')['folder'].'/'.$without_extension.'-'.$file->video_thumb_seconds.'.jpg']);
 		}
 
 		return [ 'message' => __('nova-media-library::messages.successfully_updated') ];
