@@ -19,6 +19,11 @@ class Model extends \Illuminate\Database\Eloquent\Model {
 	];
 
 
+	public function __construct(){
+			$this->dispatchesEvents = config('media-library.events');
+	}
+
+
 	/**
 	 * Create full url and name for each image
 	 *
@@ -40,6 +45,7 @@ class Model extends \Illuminate\Database\Eloquent\Model {
 	 */
 	function search($description, $type, $page, $from, $to)
 	{
+
 		$step = config('media-library.step');
 		if ( !is_int($step) or $step < 1 ) $step = 40;
 		if ( !is_int($page) or $page < 1 ) $page = 0;
