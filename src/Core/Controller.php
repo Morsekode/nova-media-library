@@ -99,7 +99,7 @@ class Controller {
 
 		$file = $this->model->updateData(request('id'), request()->all());
 
-
+		
 
 		return [ 'message' => __('nova-media-library::messages.successfully_updated') ];
 	}

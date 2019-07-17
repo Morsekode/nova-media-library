@@ -113,8 +113,6 @@ return [
 
 	],
 
-	'aws_video_thumb_api' => env('AWS_VIDEO_THUMB_API'),
-	'aws_video_thumb_key' => env('AWS_VIDEO_THUMB_KEY'),
 
 	'events' => [
 		//'saved' => '',
