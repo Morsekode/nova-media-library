@@ -99,29 +99,7 @@ class Controller {
 
 		$file = $this->model->updateData(request('id'), request()->all());
 
-		if($file->video_thumb_seconds){
 
-			$curl = curl_init();
-			curl_setopt_array($curl, array(
-			  CURLOPT_URL => config('media-library')['aws_video_thumb_api']."?bucket_name=dockzilla-reveal&object_key=uploads".$file->path."&time=".$file->video_thumb_seconds,
-			  CURLOPT_RETURNTRANSFER => true,
-			  CURLOPT_ENCODING => "",
-			  CURLOPT_MAXREDIRS => 10,
-			  CURLOPT_TIMEOUT => 30,
-			  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			  CURLOPT_CUSTOMREQUEST => "POST",
-			  CURLOPT_HTTPHEADER => array(
-			    "x-api-key: ".config('media-library')['aws_video_thumb_key']
-			  ),
-			));
-
-			$response = curl_exec($curl);
-			$err = curl_error($curl);
-
-			curl_close($curl);
-			$without_extension = pathinfo(basename($file->path), PATHINFO_FILENAME);
-			$this->model->updateData(request('id'), ['video_thumb_url' => config('media-library')['url'].'/'.config('media-library')['folder'].'/'.$without_extension.'-'.$file->video_thumb_seconds.'.jpg']);
-		}
 
 		return [ 'message' => __('nova-media-library::messages.successfully_updated') ];
 	}
