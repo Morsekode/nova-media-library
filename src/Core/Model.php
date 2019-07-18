@@ -19,7 +19,10 @@ class Model extends \Illuminate\Database\Eloquent\Model {
 	];
 
 
-	public function __construct(){
+
+
+	public function __construct(array $attributes = array()){
+			parent::__construct($attributes);
 			$this->dispatchesEvents = config('media-library.events');
 	}
 

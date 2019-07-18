@@ -36,34 +36,33 @@ class Controller {
 		);
 	}
 
-	/** Upload image to storage */
 	function upload()
 	{
-		$file = request()->file('file');
-		if ( !$file ) abort(422, __('nova-media-library::messages.not_uploaded'));
+			$file = request()->file('file');
+			if ( !$file ) abort(422, __('nova-media-library::messages.not_uploaded'));
+			$upload = new Upload($file);
+			$upload->setType();
 
-		$upload = new Upload($file);
-
-		$upload->setType();
-		if ( !$upload->type )
-			abort(422, __('nova-media-library::messages.forbidden_file_format'));
-
-		$upload->setName($file->getClientOriginalName());
-
-		$upload->setFile();
-
-		if ( !$upload->checkSize() )
-			abort(422, __('nova-media-library::messages.size_limit_exceeded'));
-
-		if ( $upload->save() ) {
-			if ( $upload->noResize ) {
-				abort(200, __('nova-media-library::messages.unsupported_resize', [ 'file' => $file->getClientOriginalName() ]));
+			if ( !$upload->type ){
+				abort(422, __('nova-media-library::messages.forbidden_file_format'));
 			}
-			return;
-		}
 
-		abort(422, __('nova-media-library::messages.not_uploaded'));
-	}
+
+			$upload->setName($file->getClientOriginalName());
+			$upload->setFile();
+
+			if ( !$upload->checkSize() ){
+				abort(422, __('nova-media-library::messages.size_limit_exceeded'));
+			}
+			
+			if ( $upload->save() ) {
+				if ( $upload->noResize ) {
+					abort(200, __('nova-media-library::messages.unsupported_resize', [ 'file' => $file->getClientOriginalName() ]));
+				}
+				return;
+			}
+			abort(422, __('nova-media-library::messages.not_uploaded'));
+		}
 
 	/** Delete all selected files */
 	function delete()
@@ -99,7 +98,7 @@ class Controller {
 
 		$file = $this->model->updateData(request('id'), request()->all());
 
-		
+
 
 		return [ 'message' => __('nova-media-library::messages.successfully_updated') ];
 	}
