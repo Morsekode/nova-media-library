@@ -72,7 +72,7 @@ class Model extends \Illuminate\Database\Eloquent\Model {
 			       })
 			       ->skip($page * $step)
 			       ->take($step)
-			       ->orderBy('id', 'DESC')
+			       ->orderBy('description', 'ASC')
 			       ->get() ?? [];
 	}
 
